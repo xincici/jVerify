@@ -21,7 +21,8 @@ A jQuery based verify component
         ,vEvent : event type     //触发校验的事件 默认为keyup
         ,warnElement : Object       //提示信息显示容器
     });
- 提交时可通过校验something.data('status') == 'false'即可得到该输入框值是否符合要求
- 对于不符合要求的可以直接调用something.showMsg()方法显示警告信息
+ > 提交时可通过校验something.data('status') == 'false'即可得到该输入框值是否符合要求
+ >
+ > 对于不符合要求的可以直接调用something.showMsg()方法显示警告信息
 
  请参考demo
