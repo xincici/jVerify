@@ -39,6 +39,10 @@
                 position: relative;
                 width: auto;
             }
+            .text_list button{
+                margin-left: 65px;
+                padding: 3px 10px;
+            }
         </style>
     </head>
     <body>
@@ -63,11 +67,14 @@
                 <input type="text" name="age" id="age" value="">
                 <em></em>
             </div>
+            <div class="text_list">
+                <button id="submit">提交</button>
+            </div>
         </div>
     </body>
     <script type="text/javascript">
         $(function(){
-            $('#userid').jVerify({
+            var userid = $('#userid').jVerify({
                 type : 'string'
                 ,emptyMsg : '不能为空'
                 ,emptyOk : false
@@ -78,7 +85,7 @@
                 ,warnElement : $('#userid').next()
                 ,tipMsgInit : false
             });
-            $('#psw').jVerify({
+            var psw = $('#psw').jVerify({
                 type : 'string'
                 ,emptyMsg : '不能为空'
                 ,emptyOk : false
@@ -90,7 +97,7 @@
                 ,warnElement : $('#psw').next()
                 ,tipMsgInit : false
             });
-            $('#mobile').jVerify({
+            var mobile = $('#mobile').jVerify({
                 type : 'mobile'
                 ,emptyMsg : '不能为空'
                 ,emptyOk : false
@@ -100,7 +107,7 @@
                 ,warnElement : $('#mobile').next()
                 ,tipMsgInit : false
             });
-            $('#age').jVerify({
+            var age = $('#age').jVerify({
                 type : 'int'
                 ,emptyOk : true
                 ,tipMsg : '输入年龄'
@@ -111,6 +118,19 @@
                 ,warnElement : $('#age').next()
                 ,tipMsgInit : false
             });
+            bindEvent();
+            function bindEvent(){
+                $('#submit').bind('click', function(){
+                    if(userid.data('status') == 'false' || psw.data('status') == 'false' || mobile.data('status') == 'false' || age.data('status') == 'false' ){
+                        userid.showMsg();
+                        psw.showMsg();
+                        mobile.showMsg();
+                        age.showMsg();
+                    }else{
+                        alert('成功提交');
+                    }
+                });
+            }
         });
     </script>
 </html>
