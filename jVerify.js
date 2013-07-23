@@ -11,11 +11,14 @@
             ,emptyOk : boolean       //是否可以为空
             ,tipMsg : string        //输入提示信息
             ,emptyMsg : string      //空白的提示信息
+            ,minValue : number      //当为int型时所能输入的最小值
+            ,maxValue : number      //当为int型时所能输入的最大值
             ,warnMsg : string       //警告信息
             ,maxLength : number     //最大长度
             ,minLength : number     //最小长度
             ,vEvent : event type     //触发校验的事件 默认为keyup
             ,warnElement : Object       //提示信息显示容器
+            ,tipMsgInit : boolean       //初始化时是否显示提示信息
         }
         */
         var self = this;
@@ -32,6 +35,7 @@
             ,minLength : opts.minLength
             ,vEvent : opts.vEvent ? opts.vEvent.toLowerCase() : 'keyup'
             ,warnElement : opts.warnElement
+            ,tipMsgInit : opts.tipMsgInit ? true : false
         };
         this.on('focus', function(){
         	self.attr("value",self.val().trim());
@@ -128,6 +132,10 @@
             }else if( _checkVal !== 0 ){
                 _opt.warnElement.html( _opt.warnMsg ).css('color', '#f00');
                 self.data('status', 'false');
+            }
+            //是否在初始化的时候显示提示信息
+            if( _opt.tipMsgInit && _opt.tipMsg && _opt.warnElement ){
+                _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
             }
         };
         this.showMsg = function(){

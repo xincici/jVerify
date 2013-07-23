@@ -116,22 +116,22 @@
                 type : 'mobile'
                 ,emptyMsg : '不能为空'
                 ,emptyOk : true
-                ,tipMsg : '输入手机号'
+                ,tipMsg : '输入手机号，可不填'
                 ,warnMsg : '格式错误'
                 ,vEvent : 'keyup'
                 ,warnElement : $('#mobile').next()
-                ,tipMsgInit : false
+                ,tipMsgInit : true
             });
             var age = $('#age').jVerify({
                 type : 'int'
                 ,emptyOk : true
-                ,tipMsg : '输入年龄'
+                ,tipMsg : '输入年龄，可不填'
                 ,warnMsg : '格式错误'
                 ,minValue : 1
                 ,maxValue : 150
                 ,vEvent : 'keyup'
                 ,warnElement : $('#age').next()
-                ,tipMsgInit : false
+                ,tipMsgInit : true
             });
             bindEvent();
             function bindEvent(){
