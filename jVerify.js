@@ -147,4 +147,4 @@
         this._init();
         return this;
     };
-})( jQuery || $, window, undefined )
+})( jQuery || $, window )
