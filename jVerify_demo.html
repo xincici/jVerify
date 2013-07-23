@@ -53,6 +53,11 @@
                 <em></em>
             </div>
             <div class="text_list">
+                <span>邮箱：</span>
+                <input type="text" name="email" id="email" value="">
+                <em></em>
+            </div>
+            <div class="text_list">
                 <span>密码：</span>
                 <input type="password" name="psw" id="psw" value="">
                 <em></em>
@@ -85,6 +90,16 @@
                 ,warnElement : $('#userid').next()
                 ,tipMsgInit : false
             });
+            var email = $('#email').jVerify({
+                type : 'email'
+                ,emptyMsg : '不能为空'
+                ,emptyOk : false
+                ,tipMsg : '输入邮箱'
+                ,warnMsg : '格式错误'
+                ,vEvent : 'keyup'
+                ,warnElement : $('#email').next()
+                ,tipMsgInit : false
+            });
             var psw = $('#psw').jVerify({
                 type : 'string'
                 ,emptyMsg : '不能为空'
@@ -100,7 +115,7 @@
             var mobile = $('#mobile').jVerify({
                 type : 'mobile'
                 ,emptyMsg : '不能为空'
-                ,emptyOk : false
+                ,emptyOk : true
                 ,tipMsg : '输入手机号'
                 ,warnMsg : '格式错误'
                 ,vEvent : 'keyup'
@@ -121,13 +136,14 @@
             bindEvent();
             function bindEvent(){
                 $('#submit').bind('click', function(){
-                    if(userid.data('status') == 'false' || psw.data('status') == 'false' || mobile.data('status') == 'false' || age.data('status') == 'false' ){
+                    if(userid.data('status') == 'false' || email.data('status') == 'false' || psw.data('status') == 'false' || mobile.data('status') == 'false' || age.data('status') == 'false' ){
                         userid.showMsg();
+                        email.showMsg();
                         psw.showMsg();
                         mobile.showMsg();
                         age.showMsg();
                     }else{
-                        alert('成功提交');
+                        alert('校验通过，可提交');
                     }
                 });
             }

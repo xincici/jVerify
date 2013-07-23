@@ -5,7 +5,7 @@ A jQuery based verify component
 
 #### 功能说明
 *   简化页面内对输入框值的有效性校验等问题
-*   目前可以支持string,int,mobile类型的检测
+*   目前可以支持email,string,int,mobile类型的检测
 
 #### 使用说明
     var something = jQuery('selector').jVerify({
