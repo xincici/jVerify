@@ -19,6 +19,7 @@
             ,vEvent : event type     //触发校验的事件 默认为keyup
             ,warnElement : Object       //提示信息显示容器
             ,tipMsgInit : boolean       //初始化时是否显示提示信息
+            ,relationElement : Object   //type为confirmpsw确认密码时的相关元素
         }
         */
         var self = this;
@@ -29,6 +30,7 @@
             ,tipMsg : opts.tipMsg ? opts.tipMsg : ""
             ,emptyMsg : opts.emptyMsg ? opts.emptyMsg : ""
             ,warnMsg : opts.warnMsg ? opts.warnMsg : ""
+            ,warnMsg1 : opts.warnMsg1 ? opts.warnMsg1 : ""
             ,maxValue : opts.maxValue
             ,minValue : opts.minValue
             ,maxLength : opts.maxLength
@@ -36,64 +38,91 @@
             ,vEvent : opts.vEvent ? opts.vEvent.toLowerCase() : 'keyup'
             ,warnElement : opts.warnElement
             ,tipMsgInit : opts.tipMsgInit ? true : false
+            ,relationElement : opts.relationElement
+            ,callback : opts.callback ? opts.callback : null
+            ,errorback : opts.errorback ? opts.errorback : null
+            ,blurback : opts.blurback ? opts.blurback : null
+            ,noInit : opts.noInit ? opts.noInit : false
         };
         this.on('focus', function(){
-        	self.attr("value",self.val().trim());
             var val = $.trim( self.val() );
             self._val = $.trim( self.val() );
             var _checkVal = self.getResult();
             if( val == "" ){
-                _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
+                _opt.warnElement && _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
             }else if( _checkVal === 100 ){
-                _opt.warnElement.html( '√' ).css('color', '0c0');
+                if( _opt.type !== 'psw' && _opt.type !== 'confirmpsw' ){
+                    _opt.warnElement && _opt.warnElement.html( '√&nbsp;' ).css('color', '0c0');
+                }
+            }else if( _checkVal === 4 ){
+            	
             }else{
-                _opt.warnElement.html( _opt.warnMsg ).css('color', 'f00');
+                _opt.warnElement && _opt.warnElement.html( 'X' + _opt.warnMsg ).css('color', 'f00');
             }
         });
         this.on(_opt.vEvent, checkValue);
         this.on('blur', checkValue);
         function checkValue(e){
-        	//解决因按tab键获取焦点后会触发这个输入框的keyup事件问题
-        	if(e.keyCode == 9) return;
+            //解决因按tab键获取焦点后会触发这个输入框的keyup事件问题
+            if(e.keyCode == 9) return;
             self._val = self.val();
             var result = self.getResult();
             switch (result){
                 case 0:
-                    if( _opt.warnElement && !_opt.emptyOk ){
-                        _opt.warnElement.html( _opt.emptyMsg ).css('color', '#f00');
-                        self.data('status', 'false');
-                    }else if( _opt.emptyOk ){
-                        _opt.warnElement.html( '' );
-                        self.data('status', 'true');
+                    if( _opt.emptyOk ){
+                    	_opt.warnElement && _opt.warnElement.html( '' );
+                        self.data('status', true);
+                    }else if( !_opt.emptyOk ){
+                    	_opt.warnElement && _opt.warnElement.html( 'X' + _opt.emptyMsg ).css('color', '#f00');
+                        self.data('status', false);
                     }else{
-                        alert( _opt.emptyMsg );
+                        //alert( _opt.emptyMsg );
                     }
                     break;
                 case 1:
                 case 2:
                     if( _opt.warnElement ){
-                        _opt.warnElement.html( _opt.warnMsg ).css('color', '#f00');
+                        _opt.warnElement.html( 'X' + _opt.warnMsg ).css('color', '#f00');
                     }else{
-                        alert( _opt.warnMsg );
+                        //alert( _opt.warnMsg );
                     }
-                    self.data('status', 'false');
+                    self.data('status', false);
                     break;
                 case 3:
                     if( _opt.warnElement ){
-                        _opt.warnElement.html( _opt.warnMsg ).css('color', '#f00');
+                        _opt.warnElement.html( 'X' + _opt.warnMsg ).css('color', '#f00');
                     }else{
-                        alert( _opt.warnMsg );
+                        //alert( _opt.warnMsg );
                     }
-                    self.data('status', 'false');
+                    self.data('status', false);
+                    break;
+                case 4:
+                    if( _opt.warnElement ){
+                        _opt.warnElement.html( _opt.warnMsg1 ).css('color', '#f00');
+                    }else{
+                        //alert( _opt.warnMsg1 );
+                    }
+                    self.data('status', false);
                     break;
                 case 100:
-                    if( _opt.warnElement ){
-                        _opt.warnElement.html('√').css('color', '#0c0');
+                    if( _opt.warnElement && _opt.type !== 'psw' ){
+                        _opt.warnElement.html('√&nbsp;').css('color', '#0c0');
                     }else{
-                        alert('√');
+                        //alert('<em class="success"></em>');
                     }
-                    self.data('status', 'true');
+                    self.data('status', true);
                     break;
+            }
+            if( self.data('status') && typeof _opt.callback === 'function' ) {
+                //_opt.warnElement && _opt.warnElement.html('<img style="vertical-align:middle;" src="../images/loading.gif" />');
+                _opt.callback();
+            }
+            if( !self.data('status') && typeof _opt.errorback === 'function' ) {
+                //_opt.warnElement && _opt.warnElement.html('<img style="vertical-align:middle;" src="../images/loading.gif" />');
+                _opt.errorback();
+            }
+            if( self.data('status') && e.type === 'blur' && typeof _opt.blurback === 'function' ){
+            	_opt.blurback();
             }
         }
         function _check(type, str){
@@ -104,19 +133,45 @@
                     if(_opt.maxLength && str.length > _opt.maxLength) return 2;
                     return 100;
                     break;
-                case 'int':
-                	if(!/^(0|[1-9][0-9]{0,9})$/.test(str)) return 3;
-                    if(_opt.minValue && parseInt(str, 10) < _opt.minValue) return 1;
-                    if(_opt.maxValue && parseInt(str, 10) > _opt.maxValue) return 2;
+                case 'id':
+                    if( !(/^[0-9]{17}[0-9xX]$/.test(str) || /^[0-9]{15}$/.test(str)) ) return 3;
+                    //if(_opt.minValue && parseInt(str, 10) < _opt.minValue) return 1;
+                    //if(_opt.maxValue && parseInt(str, 10) > _opt.maxValue) return 2;
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.maxLength && str.length > _opt.maxLength) return 2;
                     return 100;
                     break;
+                case 'int':
+                    if(!/^[0-9]{0,}$/.test(str)) return 3;
+                    if(_opt.minValue && parseInt(str, 10) < _opt.minValue) return 1;
+                    if(_opt.maxValue && parseInt(str, 10) > _opt.maxValue) return 2;
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.maxLength && str.length > _opt.maxLength) return 2;
+                    return 100;
                 case 'mobile':
-                	if(!/^1[0-9]{10}$/.test(str)) return 3;
-                	return 100;
-                	break;
+                    if(!/^(13[0-9]|15[012356789]|18[02356789]|14[57])[0-9]{8}$/.test(str)) return 3;
+                    return 100;
+                    break;
                 case 'email':
-                    var reg = /^[a-zA-Z0-9+#._-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    var reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                     return  reg.test(str)? 100 : 3;
+                    break;
+                 case 'emailprefix':
+                    var reg = /^[a-zA-Z0-9._-]+$/;
+                    return  reg.test(str)? 100 : 3;
+                    break;
+                case 'psw':
+                	if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.maxLength && str.length > _opt.maxLength) return 2;
+                    return 100;
+                    break;
+                case 'confirmpsw':
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.maxLength && str.length > _opt.maxLength) return 2;
+                    if(_opt.relationElement && (_opt.relationElement.val() === '' || _opt.relationElement.val() === str)) return 100;
+                    if(_opt.relationElement && _opt.relationElement.val() !== '' && _opt.relationElement.val() !== str) return 4;
+                    return 100;
+                    break;
             }
         }
         this.getResult = function(){
@@ -125,13 +180,19 @@
         this._init = function(){
             self._val = $.trim( self.val() );
             var _checkVal = self.getResult();
+            if( self._val !== '' && _opt.noInit && _checkVal === 100 ){
+            	self.data('status', true);
+                return;
+            }
             if( _checkVal === 100 || ( _checkVal === 0 && _opt.emptyOk ) ){
-                self.data('status', 'true');
+                _opt.warnElement && _opt.warnElement.html( '√&nbsp;' ).css('color', '#0c0');
+                self.data('status', true);
+                return;
             }else if( _checkVal === 0 && !_opt.emptyOk ){
-                self.data('status', 'false');
+                self.data('status', false);
             }else if( _checkVal !== 0 ){
-                _opt.warnElement.html( _opt.warnMsg ).css('color', '#f00');
-                self.data('status', 'false');
+                _opt.warnElement && _opt.warnElement.html( 'X' + _opt.warnMsg ).css('color', '#f00');
+                self.data('status', false);
             }
             //是否在初始化的时候显示提示信息
             if( _opt.tipMsgInit && _opt.tipMsg && _opt.warnElement ){
@@ -141,10 +202,29 @@
         this.showMsg = function(){
             var val = $.trim( self.val() );
             if( val == "" && !_opt.emptyOk ){
-                _opt.warnElement.html( _opt.emptyMsg ).css('color', '#f00');
+                _opt.warnElement && _opt.warnElement.html( 'X' + _opt.emptyMsg ).css('color', '#f00');
+                textareaBlink( this );
+            }
+            if( !this.data('status') ){
+                textareaBlink( this );
             }
         };
+        function textareaBlink(obj){
+            $(obj).css('background-color', '#fc9');
+            var sti = setInterval(function(){
+                $(obj).css('background-color', '#fc9');
+            }, 200);
+            var _sti = setTimeout(function(){
+                $(obj).css('background-color', '#fff');
+            }, 210);
+            var st = setTimeout(function(){
+                clearTimeout(st);
+                clearInterval(sti);
+                clearTimeout(_sti);
+                $(obj).css('background-color', '#fff');
+            }, 620);
+        }
         this._init();
         return this;
     };
-})( jQuery || $, window )
+})( jQuery || $, window );

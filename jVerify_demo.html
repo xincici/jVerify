@@ -88,7 +88,7 @@
                 ,maxLength: 16
                 ,vEvent : 'keyup'
                 ,warnElement : $('#userid').next()
-                ,tipMsgInit : false
+                ,tipMsgInit : true
             });
             var email = $('#email').jVerify({
                 type : 'email'
@@ -98,7 +98,7 @@
                 ,warnMsg : '格式错误'
                 ,vEvent : 'keyup'
                 ,warnElement : $('#email').next()
-                ,tipMsgInit : false
+                ,tipMsgInit : true
             });
             var psw = $('#psw').jVerify({
                 type : 'string'
@@ -110,38 +110,26 @@
                 ,maxLength: 16
                 ,vEvent : 'keyup'
                 ,warnElement : $('#psw').next()
-                ,tipMsgInit : false
+                ,tipMsgInit : true
             });
             var mobile = $('#mobile').jVerify({
                 type : 'mobile'
                 ,emptyMsg : '不能为空'
-                ,emptyOk : true
+                ,emptyOk : false
                 ,tipMsg : '输入手机号，可不填'
                 ,warnMsg : '格式错误'
                 ,vEvent : 'keyup'
                 ,warnElement : $('#mobile').next()
                 ,tipMsgInit : true
             });
-            var age = $('#age').jVerify({
-                type : 'int'
-                ,emptyOk : true
-                ,tipMsg : '输入年龄，可不填'
-                ,warnMsg : '格式错误'
-                ,minValue : 1
-                ,maxValue : 150
-                ,vEvent : 'keyup'
-                ,warnElement : $('#age').next()
-                ,tipMsgInit : true
-            });
             bindEvent();
             function bindEvent(){
                 $('#submit').bind('click', function(){
-                    if(userid.data('status') == 'false' || email.data('status') == 'false' || psw.data('status') == 'false' || mobile.data('status') == 'false' || age.data('status') == 'false' ){
+                    if( !userid.data('status') || !email.data('status') || !psw.data('status') || !mobile.data('status') ){
                         userid.showMsg();
                         email.showMsg();
                         psw.showMsg();
                         mobile.showMsg();
-                        age.showMsg();
                     }else{
                         alert('校验通过，可提交');
                     }
