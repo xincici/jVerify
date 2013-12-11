@@ -6,7 +6,7 @@ A jQuery based verify component
 #### 功能说明
 
 >    简化页面内对输入框值的有效性校验等问题  
->    目前可以支持email,string,int,mobile类型的检测
+>    目前可以支持email,emailprefix,string,int,mobile类型的检测
 
 #### 参数更新
 ``` javascript
@@ -48,6 +48,6 @@ var something = jQuery('selector').jVerify({
 });
 ```
 
->    提交时可通过校验something.data('status') == 'false'即可得到该输入框值是否符合要求  
+>    提交时可通过校验something.data('status')即可得到该输入框值是否符合要求  
 >    对于不符合要求的可以直接调用something.showMsg()方法显示警告信息  
 >    请参考demo
