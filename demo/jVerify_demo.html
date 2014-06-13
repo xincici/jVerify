@@ -4,7 +4,7 @@
         <title>test</title>
         <meta charset="utf-8" />
         <script type="text/javascript" src="../lib/jquery-1.7.2.js"></script>
-        <script type="text/javascript" src="../jVerify.js"></script>
+        <script type="text/javascript" src="../jVerify_new.js"></script>
         <style>
             body{font:12px/1.6 Arial,Helvetica,sans-serif;}
             #wrapper{width:760px;border:1px solid #888;float:left;position:absolute;left:50%;margin-left:-380px;padding:5px 20px;}
@@ -115,7 +115,7 @@
             var mobile = $('#mobile').jVerify({
                 type : 'mobile'
                 ,emptyMsg : '不能为空'
-                ,emptyOk : false
+                ,emptyOk : true 
                 ,tipMsg : '输入手机号，可不填'
                 ,warnMsg : '格式错误'
                 ,vEvent : 'keyup'
