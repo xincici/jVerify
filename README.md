@@ -55,4 +55,4 @@ var something = jQuery('selector').jVerify({
 
 >    提交时可通过校验something.data('status')即可得到该输入框值是否符合要求  
 >    对于不符合要求的可以直接调用something.showMsg()方法显示警告信息，同时值不合法的输入框会背景闪烁  
->    请参考demo
+>    请参考[demo](http://xincici.github.io/p/jVerify_demo.html)
