@@ -22,7 +22,7 @@ var something = jQuery('selector').jVerify({
     ,warnMsg : string       //警告信息
     ,maxLength : number     //最大长度
     ,minLength : number     //最小长度
-    ,vEvent : event type     //触发校验的事件 默认为keyup, ie9以下使用propertychange
+    ,vEvent : event type     //触发校验的事件 默认为input, ie9以下使用propertychange
     ,warnElement : Object       //提示信息显示容器
     ,tipMsgInit : boolean       //初始化时是否显示提示信息
     ,callback : function        //随着vEvent事件校验通过时触发的事件
@@ -47,7 +47,7 @@ var something = jQuery('selector').jVerify({
     ,warnMsg : string       //警告信息
     ,maxLength : number     //最大长度
     ,minLength : number     //最小长度
-    ,vEvent : event type     //触发校验的事件 默认为keyup, ie9以下使用propertychange
+    ,vEvent : event type     //触发校验的事件 默认为input, ie9以下使用propertychange
     ,warnElement : Object       //提示信息显示容器
     ,tipMsgInit : boolean       //初始化时是否显示提示信息
 });
