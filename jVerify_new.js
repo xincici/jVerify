@@ -85,7 +85,7 @@
                 //_opt.warnElement && _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
             }else if( _checkVal === 100 ){
                 if( _opt.type !== 'psw' && _opt.type !== 'confirmpsw' ){
-                    _opt.warnElement && _opt.warnElement.html( '√&nbsp;' ).css('color', '0c0');
+                    _opt.warnElement && _opt.warnElement.html( '√&nbsp;' ).css('color', '#0c0');
                 }
                 if( typeof _opt.callback === 'function' ){
                     _opt.callback();
@@ -93,7 +93,7 @@
             }else if( _checkVal === 4 ){
             	
             }else{
-                _opt.warnElement && _opt.warnElement.html( '' + _opt.warnMsg ).css('color', 'f00');
+                _opt.warnElement && _opt.warnElement.html( '' + _opt.warnMsg ).css('color', '#f00');
             }
         });
         this.on(_opt.vEvent, checkValue);
