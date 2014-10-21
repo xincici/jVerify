@@ -20,9 +20,9 @@
             ,warnElement : Object       //提示信息显示容器
             ,tipMsgInit : boolean       //初始化时是否显示提示信息
             ,relationElement : Object   //type为confirmpsw确认密码时的相关元素
-            ,customRegExp : String 		//自定义校验正则
-            ,spaceOk : boolean			//是否可以包含空格
-            ,spaceTips : String			//包含空格的提示信息
+            ,customRegExp : String         //自定义校验正则
+            ,spaceOk : boolean            //是否可以包含空格
+            ,spaceTips : String            //包含空格的提示信息
         }
         */
         var self = this;
@@ -52,7 +52,7 @@
             ,maxLength : opts.maxLength
             ,minLength : opts.minLength
             ,vEvent : opts.vEvent ? opts.vEvent.toLowerCase() : ( isIE && isIE <= 9 ? 'propertychange' : 'input')
-        	,customRegExp : opts.customRegExp ? opts.customRegExp : false
+            ,customRegExp : opts.customRegExp ? opts.customRegExp : false
             ,warnElement : opts.warnElement
             ,tipMsgInit : opts.tipMsgInit ? true : false
             ,relationElement : opts.relationElement
@@ -71,11 +71,11 @@
         }
         this.on('focus', function(){
             hasFocus = true;
-        	$(this).css('background-color', '#fff');
-        	if( /\s/.test(self.val()) && !_opt.spaceOk ){
-            	_opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
-            	self.data('status', false);
-            	return;
+            $(this).css('background-color', '#fff');
+            if( /\s/.test(self.val()) && !_opt.spaceOk ){
+                _opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
+                self.data('status', false);
+                return;
             }
             var val = $.trim( self.val() );
             self._val = $.trim( self.val() );
@@ -91,7 +91,7 @@
                     _opt.callback();
                 }
             }else if( _checkVal === 4 ){
-            	
+                
             }else{
                 _opt.warnElement && _opt.warnElement.html( '' + _opt.warnMsg ).css('color', '#f00');
             }
@@ -107,21 +107,21 @@
             if(e.keyCode == 9) return;
             self._val = self.val();
             if( /\s/.test(self._val) && !_opt.spaceOk ){
-            	_opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
-            	self.data('status', false);
-            	return;
+                _opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
+                self.data('status', false);
+                return;
             }
             var result = self.getResult();
             switch (result){
                 case 0:
                     if( _opt.emptyOk ){
-                    	_opt.warnElement && _opt.warnElement.html( '' );
+                        _opt.warnElement && _opt.warnElement.html( '' );
                         self.data('status', true);
                     }else if( !_opt.emptyOk ){
                         if( !hasFocus ){ //for the ie 10,11 placeholder set bug
                             self.data('status', false);
                         }else{
-                        	_opt.warnElement && _opt.warnElement.html( '' + _opt.emptyMsg ).css('color', '#f00');
+                            _opt.warnElement && _opt.warnElement.html( '' + _opt.emptyMsg ).css('color', '#f00');
                             self.data('status', false);
                         }
                     }else{
@@ -171,7 +171,7 @@
                 _opt.errorback();
             }
             if( self.data('status') && e.type === 'blur' && typeof _opt.blurback === 'function' ){
-            	_opt.blurback();
+                _opt.blurback();
             }
         }
         function _check(type, str){
@@ -183,7 +183,7 @@
                     return 100;
                     break;
                 case 'id':
-                	if( !checkID(str) ) return 3;
+                    if( !checkID(str) ) return 3;
                     //if( !(/^[0-9]{17}[0-9xX]$/.test(str) || /^[0-9]{15}$/.test(str)) ) return 3;
                     //if(_opt.minValue && parseInt(str, 10) < _opt.minValue) return 1;
                     //if(_opt.maxValue && parseInt(str, 10) > _opt.maxValue) return 2;
@@ -203,23 +203,23 @@
                     return 100;
                     break;
                 case 'email':
-                	if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
                     if(_opt.maxLength && str.length > _opt.maxLength) return 2;
                     var reg = /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                     //fuck focus.cn email address
                     if(str.split('@')[1] === 'focus.cn'){
-                    	reg = /^[a-zA-Z0-9\u4e00-\u9fff][a-zA-Z0-9\u4e00-\u9fff._-]{0,}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                        reg = /^[a-zA-Z0-9\u4e00-\u9fff][a-zA-Z0-9\u4e00-\u9fff._-]{0,}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                     }
                     return  reg.test(str)? 100 : 3;
                     break;
                  case 'emailprefix':
-                	if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
                     if(_opt.maxLength && str.length > _opt.maxLength) return 2;
                     var reg = /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,}$/;
                     return  reg.test(str)? 100 : 3;
                     break;
                 case 'psw':
-                	if(_opt.minLength && str.length < _opt.minLength) return 1;
+                    if(_opt.minLength && str.length < _opt.minLength) return 1;
                     if(_opt.maxLength && str.length > _opt.maxLength) return 2;
                     return 100;
                     break;
@@ -231,35 +231,35 @@
                     return 100;
                     break;
                 case 'custom':
-                	if( _opt.customRegExp && !_opt.customRegExp.test(str) ) return 3;
-                	return 100;
-                	break;
+                    if( _opt.customRegExp && !_opt.customRegExp.test(str) ) return 3;
+                    return 100;
+                    break;
             }
         }
         function checkID( str ){
-        	if( !(/^[1-9][0-9]{16}[0-9xX]$/.test(str) || /^[1-9][0-9]{14}$/.test(str)) ) return false;
-        	var year,month,date;
-        	if( str.length === 15 ){
-        		year = parseInt( '19' + str.substr(6,2), 10 );
-        		month = parseInt( str.substr(8,2), 10 );
-        		date = parseInt( str.substr(10,2), 10 );
-        	}else{
-        		year = parseInt( str.substr(6,4), 10 );
-        		month = parseInt( str.substr(10,2), 10 );
-        		date = parseInt( str.substr(12,2), 10 );
-        	}
-        	if( month < 1 || date < 1 || month > 12 || date > 31 ) return false;
-        	if( month == 4 || month == 6 || month == 9 || month == 11 ){
-        		if( date > 30 ) return false;
-        	}
-        	if ( month == 2 ){
-        		if( (year%4 == 0 && year%100 != 0) || (year%100 == 0 && year%400 == 0) ){
-        			if( date > 29 ) return false;
-        		}else{
-        			if( date > 28 ) return false;
-        		}
-        	}
-        	return true;
+            if( !(/^[1-9][0-9]{16}[0-9xX]$/.test(str) || /^[1-9][0-9]{14}$/.test(str)) ) return false;
+            var year,month,date;
+            if( str.length === 15 ){
+                year = parseInt( '19' + str.substr(6,2), 10 );
+                month = parseInt( str.substr(8,2), 10 );
+                date = parseInt( str.substr(10,2), 10 );
+            }else{
+                year = parseInt( str.substr(6,4), 10 );
+                month = parseInt( str.substr(10,2), 10 );
+                date = parseInt( str.substr(12,2), 10 );
+            }
+            if( month < 1 || date < 1 || month > 12 || date > 31 ) return false;
+            if( month == 4 || month == 6 || month == 9 || month == 11 ){
+                if( date > 30 ) return false;
+            }
+            if ( month == 2 ){
+                if( (year%4 == 0 && year%100 != 0) || (year%100 == 0 && year%400 == 0) ){
+                    if( date > 29 ) return false;
+                }else{
+                    if( date > 28 ) return false;
+                }
+            }
+            return true;
         }
         this.getResult = function(){
             return _check(_opt.type, self._val);
@@ -268,7 +268,7 @@
             self._val = $.trim( self.val() );
             var _checkVal = self.getResult();
             if( self._val !== '' && _opt.noInit && _checkVal === 100 ){
-            	self.data('status', true);
+                self.data('status', true);
                 return;
             }
             if( _checkVal === 100 ){
