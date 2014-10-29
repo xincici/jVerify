@@ -79,7 +79,7 @@
             }
             var val = $.trim( self.val() );
             self._val = $.trim( self.val() );
-            var _checkVal = self.getResult();
+            var _checkVal = getResult();
             if( val == "" ){
                 // resove the stupid need
                 //_opt.warnElement && _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
@@ -111,7 +111,7 @@
                 self.data('status', false);
                 return;
             }
-            var result = self.getResult();
+            var result = getResult();
             switch (result){
                 case 0:
                     if( _opt.emptyOk ){
@@ -261,12 +261,12 @@
             }
             return true;
         }
-        this.getResult = function(){
+        function getResult(){
             return _check(_opt.type, self._val);
-        };
-        this._init = function(){
+        }
+        function init(){
             self._val = $.trim( self.val() );
-            var _checkVal = self.getResult();
+            var _checkVal = getResult();
             if( self._val !== '' && _opt.noInit && _checkVal === 100 ){
                 self.data('status', true);
                 return;
@@ -288,7 +288,7 @@
             if( _opt.tipMsgInit && _opt.tipMsg && _opt.warnElement ){
                 _opt.warnElement.html( _opt.tipMsg ).css('color', '#999');
             }
-        };
+        }
         this.showMsg = function(){
             var val = $.trim( self.val() );
             if( val == "" && !_opt.emptyOk ){
@@ -314,7 +314,7 @@
                 $(obj).css('background-color', '#fc9');
             }, 620);
         }
-        this._init();
+        init();
         return this;
     };
 })( jQuery || $, window );
