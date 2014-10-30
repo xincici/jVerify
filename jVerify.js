@@ -231,7 +231,10 @@
                     return 100;
                     break;
                 case 'custom':
-                    if( _opt.customRegExp && !_opt.customRegExp.test(str) ) return 3;
+                    if( _opt.customRegExp ){
+                        _opt.customRegExp.lastIndex = 0;
+                        if( !_opt.customRegExp.test(str) ) return 3;
+                    }
                     return 100;
                     break;
             }
