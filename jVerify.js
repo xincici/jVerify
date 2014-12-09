@@ -74,7 +74,7 @@
             $(this).css('background-color', '#fff');
             if( /\s/.test(self.val()) && !_opt.spaceOk ){
                 _opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
-                self.data('status', false);
+                self.data('status-jverify', false);
                 return;
             }
             var val = $.trim( self.val() );
@@ -108,7 +108,7 @@
             self._val = self.val();
             if( /\s/.test(self._val) && !_opt.spaceOk ){
                 _opt.warnElement && _opt.warnElement.html( '' + _opt.spaceTips ).css('color', '#f00');
-                self.data('status', false);
+                self.data('status-jverify', false);
                 return;
             }
             var result = getResult();
@@ -116,13 +116,13 @@
                 case 0:
                     if( _opt.emptyOk ){
                         _opt.warnElement && _opt.warnElement.html( '' );
-                        self.data('status', true);
+                        self.data('status-jverify', true);
                     }else if( !_opt.emptyOk ){
                         if( !hasFocus ){ //for the ie 10,11 placeholder set bug
-                            self.data('status', false);
+                            self.data('status-jverify', false);
                         }else{
                             _opt.warnElement && _opt.warnElement.html( '' + _opt.emptyMsg ).css('color', '#f00');
-                            self.data('status', false);
+                            self.data('status-jverify', false);
                         }
                     }else{
                         //alert( _opt.emptyMsg );
@@ -135,7 +135,7 @@
                     }else{
                         //alert( _opt.warnMsg );
                     }
-                    self.data('status', false);
+                    self.data('status-jverify', false);
                     break;
                 case 3:
                     if( _opt.warnElement ){
@@ -143,7 +143,7 @@
                     }else{
                         //alert( _opt.warnMsg );
                     }
-                    self.data('status', false);
+                    self.data('status-jverify', false);
                     break;
                 case 4:
                     if( _opt.warnElement ){
@@ -151,7 +151,7 @@
                     }else{
                         //alert( _opt.warnMsg1 );
                     }
-                    self.data('status', false);
+                    self.data('status-jverify', false);
                     break;
                 case 100:
                     if( _opt.warnElement && _opt.type !== 'psw' ){
@@ -159,18 +159,18 @@
                     }else{
                         //alert('√');
                     }
-                    self.data('status', true);
+                    self.data('status-jverify', true);
                     break;
             }
-            if( self.data('status') && typeof _opt.callback === 'function' ) {
+            if( self.data('status-jverify') && typeof _opt.callback === 'function' ) {
                 //_opt.warnElement && _opt.warnElement.html('<img style="vertical-align:middle;" src="../images/loading.gif" />');
                 _opt.callback();
             }
-            if( !self.data('status') && typeof _opt.errorback === 'function' ) {
+            if( !self.data('status-jverify') && typeof _opt.errorback === 'function' ) {
                 //_opt.warnElement && _opt.warnElement.html('<img style="vertical-align:middle;" src="../images/loading.gif" />');
                 _opt.errorback();
             }
-            if( self.data('status') && e.type === 'blur' && typeof _opt.blurback === 'function' ){
+            if( self.data('status-jverify') && e.type === 'blur' && typeof _opt.blurback === 'function' ){
                 _opt.blurback();
             }
         }
@@ -271,21 +271,21 @@
             self._val = $.trim( self.val() );
             var _checkVal = getResult();
             if( self._val !== '' && _opt.noInit && _checkVal === 100 ){
-                self.data('status', true);
+                self.data('status-jverify', true);
                 return;
             }
             if( _checkVal === 100 ){
                 _opt.warnElement && _opt.warnElement.html( '√&nbsp;' ).css('color', '#0c0');
-                self.data('status', true);
+                self.data('status-jverify', true);
                 return;
             }else if( _checkVal === 0 && _opt.emptyOk ){
-                self.data('status', true);
+                self.data('status-jverify', true);
                 return;
             }else if( _checkVal === 0 && !_opt.emptyOk ){
-                self.data('status', false);
+                self.data('status-jverify', false);
             }else if( _checkVal !== 0 ){
                 _opt.warnElement && _opt.warnElement.html( '' + _opt.warnMsg ).css('color', '#f00');
-                self.data('status', false);
+                self.data('status-jverify', false);
             }
             //是否在初始化的时候显示提示信息
             if( _opt.tipMsgInit && _opt.tipMsg && _opt.warnElement ){
@@ -298,9 +298,12 @@
                 _opt.warnElement && _opt.warnElement.html( '' + _opt.emptyMsg ).css('color', '#f00');
                 textareaBlink( this );
             }
-            if( !this.data('status') ){
+            if( !this.data('status-jverify') ){
                 textareaBlink( this );
             }
+        };
+        this.isValid = function(){
+            return this.data('status-jverify');
         };
         function textareaBlink(obj){
             $(obj).css('background-color', '#fc9');
